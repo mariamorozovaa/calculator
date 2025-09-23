@@ -8,30 +8,35 @@
     <script src="script.js" async defer></script>
   </head>
   <body>
-    <input class="input" type="text" placeholder="0" readonly />
-
     <div id="container">
-      <div id="numbers">
-        <button type="button" class="number">7</button>
-        <button type="button" class="number">8</button>
-        <button type="button" class="number">9</button>
-        <button type="button" class="number">4</button>
-        <button type="button" class="number">5</button>
-        <button type="button" class="number">6</button>
-        <button type="button" class="number">1</button>
-        <button type="button" class="number">2</button>
-        <button type="button" class="number">3</button>
-        <button type="button" class="number">0</button>
-      </div>
+      <div class="display">
+        <input class="input" type="text" placeholder="0" readonly />
 
-      <div id="operators">
-        <button type="button" class="operator" id="clear">AC</button>
-        <button type="button" class="operator" id="delete">⌫</button>
-        <button type="button" class="operator">/</button>
-        <button type="button" class="operator">*</button>
-        <button type="button" class="operator">-</button>
-        <button type="button" class="operator">+</button>
-        <button type="button" class="operator" id="equal">=</button>
+        <div class="btns">
+          <button type="button" class="operator gray" id="clear">⌫</button>
+          <button type="button" class="operator gray" id="clear">-/+</button>
+          <button type="button" class="operator gray" id="delete">%</button>
+          <button type="button" class="operator orange">/</button>
+
+          <button type="button" class="number">7</button>
+          <button type="button" class="number">8</button>
+          <button type="button" class="number">9</button>
+          <button type="button" class="operator orange">*</button>
+
+          <button type="button" class="number">4</button>
+          <button type="button" class="number">5</button>
+          <button type="button" class="number">6</button>
+          <button type="button" class="operator orange">-</button>
+
+          <button type="button" class="number">1</button>
+          <button type="button" class="number">2</button>
+          <button type="button" class="number">3</button>
+          <button type="button" class="operator orange">+</button>
+
+          <button type="button" class="number zero">0</button>
+          <button type="button" class="number">.</button>
+          <button type="button" class="operator orange">=</button>
+        </div>
       </div>
     </div>
   </body>
