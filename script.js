@@ -21,23 +21,19 @@ function divideElements(num1, num2) {
 function operate(operator, num1, num2) {
   switch (operator) {
     case "+":
-      addElements(num1, num2);
-      break;
+      return addElements(num1, num2);
 
     case "-":
-      subtractElements(num1, num2);
-      break;
+      return subtractElements(num1, num2);
 
     case "/":
-      divideElements(num1, num2);
-      break;
+      return divideElements(num1, num2);
 
     case "*":
-      multiplyElements(num1, num2);
-      break;
+      return multiplyElements(num1, num2);
 
     default:
-      "Error";
+      return "Error";
   }
 }
 
@@ -47,56 +43,51 @@ displayInput.value = "0";
 const numbers = Array.from(document.querySelectorAll(".number"));
 numbers.forEach((number) => {
   number.addEventListener("click", () => {
-    displayInput.value += number.textContent;
-    num1 = displayInput.value;
-    console.log(num1);
+    if (displayInput.value === "0") {
+      displayInput.value = number.textContent;
+    } else displayInput.value += number.textContent;
+    if (currentOperator === null) {
+      num1 = Number(displayInput.value);
+    }
+
+    if (currentOperator !== null && num2 === null) {
+      num2 = number.textContent;
+    } else if (currentOperator !== null && num2 !== null) {
+      num2 += number.textContent;
+    }
+    num2 = Number(num2);
   });
 });
 
-// let shouldResetDisplay = false;
+const operators = Array.from(document.querySelectorAll(".operator"));
+operators.forEach((operator) => {
+  operator.addEventListener("click", () => {
+    if (operator.textContent === "⌫") {
+      displayInput.value = 0;
+      num1 = null;
+      num2 = null;
+      currentOperator = null;
+    } else if (operator.textContent === "-/+") {
+      displayInput.value = displayInput.value * -1;
+      currentOperator = null;
+    } else if (operator.textContent === "%") {
+      displayInput.value = Number(displayInput.value) / 100;
+    } else if (currentOperator === null) {
+      displayInput.value += operator.textContent;
+      currentOperator = operator.textContent;
+    } else if (currentOperator !== null && operator.textContent !== "=") {
+      displayInput.value = displayInput.value.slice(0, -1);
+      displayInput.value += operator.textContent;
+      currentOperator = operator.textContent;
+    } else if (operator.textContent === "=") {
+      displayInput.value = operate(currentOperator, num1, num2);
+      currentOperator = null;
+      num1 = Number(displayInput.value);
+      num2 = null;
+    } else {
+      console.log("Ошибка");
+    }
+  });
+});
 
-// const displayInput = document.querySelector(".input");
-// displayInput.value = "0";
-// const numbers = Array.from(document.querySelectorAll(".number"));
-// const operators = Array.from(document.querySelectorAll(".operator"));
-// const clear = document.querySelector("#clear");
-
-// numbers.map((number) => {
-//   number.addEventListener("click", () => {
-//     if (shouldResetDisplay) {
-//       displayInput.value = "";
-//       // shouldResetDisplay = false;
-//     }
-//     if (displayInput.value === "0" && number.textContent !== ".") {
-//       displayInput.value = number.textContent;
-//     } else {
-//       displayInput.value += number.textContent;
-//     }
-//   });
-// });
-
-// operators.forEach((operator) => {
-//   operator.addEventListener("click", () => {
-//     if (operator.textContent === "⌫") {
-//       displayInput.value = "0";
-//       // displayInput.value = displayInput.value.slice(0, -1) || "0";
-//     } else if (operator.textContent === "-/+") {
-//       displayInput.value = String(Number(displayInput.value) * -1);
-//     } else if (operator.textContent === "%") {
-//       displayInput.value = String(Number(displayInput.value) / 100);
-//     } else if (operator.textContent === "+") {
-//       num1 = Number(displayInput.value);
-//       displayInput.value += "+";
-//       currentOperator = "+";
-//       shouldResetDisplay = true;
-//     } else if (operator.textContent === "=") {
-//       const num2 = Number(displayInput.value);
-//       if (currentOperator === "+") {
-//         displayInput.value = String(addElements(num1, num2));
-//       }
-//       shouldResetDisplay = true;
-//       num1 = null;
-//       currentOperator = null;
-//     }
-//   });
-// });
+// убрать, что можно вводить два оператора 999-22+33
