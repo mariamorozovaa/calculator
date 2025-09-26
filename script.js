@@ -52,30 +52,42 @@ numbers.forEach((number) => {
 
     if (currentOperator !== null && num2 === null) {
       num2 = number.textContent;
+      num2 = Number(num2);
     } else if (currentOperator !== null && num2 !== null) {
       num2 += number.textContent;
+      num2 = Number(num2);
     }
-    num2 = Number(num2);
+
+    console.log("num1", num1);
+    console.log("num2", num2);
   });
 });
 
 const operators = Array.from(document.querySelectorAll(".operator"));
+
 operators.forEach((operator) => {
   operator.addEventListener("click", () => {
     if (operator.textContent === "⌫") {
-      displayInput.value = 0;
+      displayInput.value = "0";
       num1 = null;
       num2 = null;
       currentOperator = null;
     } else if (operator.textContent === "-/+") {
-      displayInput.value = displayInput.value * -1;
+      displayInput.value = Number(displayInput.value) * -1;
+      num1 = displayInput.value;
       currentOperator = null;
+    } else if (operator.textContent === "." && num2 === null && currentOperator === null) {
+      displayInput.value += operator.textContent;
+      num1 = Number(displayInput.value);
+      //обработка num2
     } else if (operator.textContent === "%") {
       displayInput.value = Number(displayInput.value) / 100;
+      num1 = displayInput.value;
+      currentOperator = null;
     } else if (currentOperator === null) {
-      displayInput.value += operator.textContent;
       currentOperator = operator.textContent;
-    } else if (currentOperator !== null && operator.textContent !== "=") {
+      displayInput.value += operator.textContent;
+    } else if (currentOperator !== null && operator.textContent !== "=" && num2 === null) {
       displayInput.value = displayInput.value.slice(0, -1);
       displayInput.value += operator.textContent;
       currentOperator = operator.textContent;
@@ -87,7 +99,12 @@ operators.forEach((operator) => {
     } else {
       console.log("Ошибка");
     }
+    console.log(num2);
   });
 });
 
-// убрать, что можно вводить два оператора 999-22+33
+//-5.6 + 3 = -5.63
+//7.3 + 3 = 80.3
+//убрать, чтобы можно было ставить точку несколько раз
+//когда есть результат и начинаешь вводить новое чило, оно конкатенируется с результатом
+//плавающие числа не складваюся с целыми а конкатенируются
