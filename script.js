@@ -67,22 +67,24 @@ const operators = Array.from(document.querySelectorAll(".operator"));
 
 operators.forEach((operator) => {
   operator.addEventListener("click", () => {
-    if (operator.textContent === "⌫") {
+    if (operator.textContent === "AC") {
       displayInput.value = "0";
       num1 = null;
       num2 = null;
       currentOperator = null;
-    } else if (operator.textContent === "-/+") {
-      displayInput.value = Number(displayInput.value) * -1;
-      num1 = displayInput.value;
+    } else if (operator.textContent === "-/+" && num2 === null && currentOperator === null) {
+      let currNum1 = Number(displayInput.value) * -1;
+      num1 = currNum1;
+      displayInput.value = currNum1;
       currentOperator = null;
     } else if (operator.textContent === "." && num2 === null && currentOperator === null) {
       displayInput.value += operator.textContent;
       num1 = Number(displayInput.value);
       //обработка num2
     } else if (operator.textContent === "%") {
-      displayInput.value = Number(displayInput.value) / 100;
-      num1 = displayInput.value;
+      let currNum1Perc = Number(displayInput.value) / 100;
+      displayInput.value = currNum1Perc;
+      num1 = currNum1Perc;
       currentOperator = null;
     } else if (currentOperator === null) {
       currentOperator = operator.textContent;
@@ -91,7 +93,7 @@ operators.forEach((operator) => {
       displayInput.value = displayInput.value.slice(0, -1);
       displayInput.value += operator.textContent;
       currentOperator = operator.textContent;
-    } else if (operator.textContent === "=") {
+    } else if (currentOperator !== null && num2 !== null && operator.textContent === "=") {
       displayInput.value = operate(currentOperator, num1, num2);
       currentOperator = null;
       num1 = Number(displayInput.value);
@@ -103,8 +105,7 @@ operators.forEach((operator) => {
   });
 });
 
-//-5.6 + 3 = -5.63
-//7.3 + 3 = 80.3
+//не ставится точка для второго числа
 //убрать, чтобы можно было ставить точку несколько раз
 //когда есть результат и начинаешь вводить новое чило, оно конкатенируется с результатом
-//плавающие числа не складваюся с целыми а конкатенируются
+//нельзя ставить равно если не определен оператор и num2
