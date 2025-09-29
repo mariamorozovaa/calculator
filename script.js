@@ -1,6 +1,7 @@
 let num1 = null;
 let num2 = null;
 let currentOperator = null;
+let result = null;
 
 function addElements(num1, num2) {
   return num1 + num2;
@@ -47,12 +48,13 @@ numbers.forEach((number) => {
   number.addEventListener("click", () => {
     if (displayInput.value === "0") {
       displayInput.value = number.textContent;
+    } else if (Number(displayInput.value) === result) {
+      displayInput.value = number.textContent;
     } else displayInput.value += number.textContent;
+
     if (currentOperator === null) {
       num1 = Number(displayInput.value);
-    }
-
-    if (currentOperator !== null && num2 === null) {
+    } else if (currentOperator !== null && num2 === null) {
       num2 = number.textContent;
       num2 = Number(num2);
     } else if (currentOperator !== null && num2 !== null) {
@@ -85,25 +87,32 @@ operators.forEach((operator) => {
       displayInput.value += operator.textContent;
       num1 = Number(displayInput.value);
       //обработка num2
-    } else if (operator.textContent === "%") {
+    } else if (operator.textContent === "%" && currentOperator === null) {
       let currNum1Perc = Number(displayInput.value) / 100;
       displayInput.value = currNum1Perc;
       num1 = currNum1Perc;
-      currentOperator = null;
+      // currentOperator = null;
     } else if (currentOperator === null) {
       currentOperator = operator.textContent;
       displayInput.value += operator.textContent;
-    } else if (currentOperator !== null && operator.textContent !== "=" && num2 === null) {
+    } else if (
+      currentOperator !== null &&
+      operator.textContent !== "=" &&
+      operator.textContent !== "%" &&
+      operator.textContent !== "-/+" &&
+      num2 === null
+    ) {
       displayInput.value = displayInput.value.slice(0, -1);
       displayInput.value += operator.textContent;
       currentOperator = operator.textContent;
-    } else if (currentOperator !== null && num2 !== null) {
-      // if (operator.textContent === "=") {
-      displayInput.value = operate(currentOperator, num1, num2);
-      currentOperator = null;
-      num1 = Number(displayInput.value);
-      num2 = null;
-      // }
+    } else if (currentOperator !== null && num1 !== null && num2 !== null) {
+      if (operator.textContent === "=") {
+        result = operate(currentOperator, num1, num2);
+        displayInput.value = result;
+        num1 = result;
+        num2 = null;
+        currentOperator = null;
+      }
     } else {
       alert("Ошибка");
     }
