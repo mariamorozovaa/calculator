@@ -27,7 +27,9 @@ function operate(operator, num1, num2) {
       return subtractElements(num1, num2);
 
     case "/":
-      return divideElements(num1, num2);
+      if (num2 === 0) {
+        return "Ошибка";
+      } else return divideElements(num1, num2);
 
     case "*":
       return multiplyElements(num1, num2);
@@ -64,6 +66,7 @@ numbers.forEach((number) => {
 });
 
 const operators = Array.from(document.querySelectorAll(".operator"));
+let dot = false;
 
 operators.forEach((operator) => {
   operator.addEventListener("click", () => {
@@ -77,7 +80,8 @@ operators.forEach((operator) => {
       num1 = currNum1;
       displayInput.value = currNum1;
       currentOperator = null;
-    } else if (operator.textContent === "." && num2 === null && currentOperator === null) {
+    } else if (operator.textContent === "." && num2 === null && currentOperator === null && dot === false) {
+      dot = true;
       displayInput.value += operator.textContent;
       num1 = Number(displayInput.value);
       //обработка num2
@@ -93,19 +97,15 @@ operators.forEach((operator) => {
       displayInput.value = displayInput.value.slice(0, -1);
       displayInput.value += operator.textContent;
       currentOperator = operator.textContent;
-    } else if (currentOperator !== null && num2 !== null && operator.textContent === "=") {
+    } else if (currentOperator !== null && num2 !== null) {
+      // if (operator.textContent === "=") {
       displayInput.value = operate(currentOperator, num1, num2);
       currentOperator = null;
       num1 = Number(displayInput.value);
       num2 = null;
+      // }
     } else {
-      console.log("Ошибка");
+      alert("Ошибка");
     }
-    console.log(num2);
   });
 });
-
-//не ставится точка для второго числа
-//убрать, чтобы можно было ставить точку несколько раз
-//когда есть результат и начинаешь вводить новое чило, оно конкатенируется с результатом
-//нельзя ставить равно если не определен оператор и num2
