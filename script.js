@@ -49,17 +49,19 @@ numbers.forEach((number) => {
     if (displayInput.value === "0") {
       displayInput.value = number.textContent;
     } else if (Number(displayInput.value) === result) {
+      result = null;
       displayInput.value = number.textContent;
     } else displayInput.value += number.textContent;
 
     if (currentOperator === null) {
       num1 = Number(displayInput.value);
-    } else if (currentOperator !== null && num2 === null) {
-      num2 = number.textContent;
-      num2 = Number(num2);
-    } else if (currentOperator !== null && num2 !== null) {
-      num2 += number.textContent;
-      num2 = Number(num2);
+    } else if (currentOperator !== null) {
+      if (num2 === null) {
+        num2 = Number(number.textContent);
+      } else if (num2 !== null) {
+        num2 += number.textContent;
+        num2 = Number(num2);
+      }
     }
 
     console.log("num1", num1);
@@ -113,6 +115,20 @@ operators.forEach((operator) => {
         num2 = null;
         currentOperator = null;
       }
+      // else if (
+      //   operator.textContent === "+" ||
+      //   operator.textContent === "/" ||
+      //   operator.textContent === "*" ||
+      //   operator.textContent === "-"
+      // ) {
+      //   result = operate(currentOperator, num1, num2);
+      //   num1 = Number(result);
+      //   num2 = null;
+      //   currentOperator = null;
+
+      //   displayInput.value = result;
+      //   displayInput.value += operator.textContent;
+      // }
     } else {
       alert("Ошибка");
     }
