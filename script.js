@@ -84,19 +84,15 @@ operators.forEach((operator) => {
       num1 = currNum1;
       displayInput.value = currNum1;
       currentOperator = null;
-    }
-    // else if (
-    //   operator.textContent === "." &&
-    //   num2 === null &&
-    //   currentOperator === null
-    //   // && dot === false
-    // ) {
-    //   // dot = true;
-    //   displayInput.value += operator.textContent;
-    //   num1 = Number(displayInput.value);
-    //   //обработка num2
-    // }
-    else if (operator.textContent === "%") {
+    } else if (operator.textContent === ".") {
+      if (currentOperator === null) {
+        displayInput.value += operator.textContent;
+        num1 = Number(displayInput.value);
+      } else if (currentOperator !== null) {
+        displayInput.value += operator.textContent;
+        num2 += operator.textContent;
+      }
+    } else if (operator.textContent === "%") {
       if (currentOperator === null && num2 === null) {
         let currNum1Perc = Number(displayInput.value) / 100;
         displayInput.value = currNum1Perc;
