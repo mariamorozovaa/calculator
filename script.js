@@ -101,7 +101,7 @@ operators.forEach((operator) => {
     } else if (operator.textContent === "%") {
       if (currentOperator === null && num2 === null) {
         let currNum1Perc = Number(displayInput.value) / 100;
-        displayInput.value = currNum1Perc;
+        displayInput.value = formatResult(currNum1Perc); //не работает с пятеркой
         num1 = currNum1Perc;
       } else if (currentOperator !== null) {
         //issue12 и 8
@@ -123,16 +123,16 @@ operators.forEach((operator) => {
     } else if (currentOperator !== null && num1 !== null && num2 !== null) {
       if (operator.textContent === "=") {
         result = operate(currentOperator, num1, num2);
-        displayInput.value = result;
+        displayInput.value = formatResult(result);
         num1 = result;
         num2 = null;
         currentOperator = null;
+        dotNum2 = false;
       } else if (operator.textContent !== "=" && operator.textContent !== "%" && operator.textContent !== "-/+") {
         result = operate(currentOperator, num1, num2);
-        displayInput.value = result;
+        displayInput.value = formatResult(result);
         num1 = result;
         num2 = null;
-        // dotNum1 = false;
         dotNum2 = false;
         displayInput.value += operator.textContent;
         currentOperator = operator.textContent;
@@ -142,3 +142,19 @@ operators.forEach((operator) => {
     }
   });
 });
+
+function formatResult(result, maxLength = 12) {
+  let str = String(result);
+
+  if (str.length <= maxLength) return result;
+  if (typeof result === "number" && !Number.isInteger(result)) {
+    let intPart = Math.trunc(result).toString().length;
+    let decimals = maxLength - intPart - 1;
+    return result.toFixed(decimals);
+  }
+
+  return result.toExponential(maxLength - 5);
+}
+
+//если на экране результат и начинаешь вводить новую операцию, ее не видно на дисплее (большие числа например)
+//сама операция в верхней строке, а результат внизу
