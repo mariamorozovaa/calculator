@@ -70,7 +70,7 @@ numbers.forEach((number) => {
 });
 
 const operators = Array.from(document.querySelectorAll(".operator"));
-let dot = false;
+// let dot = false;
 
 operators.forEach((operator) => {
   operator.addEventListener("click", () => {
@@ -84,17 +84,28 @@ operators.forEach((operator) => {
       num1 = currNum1;
       displayInput.value = currNum1;
       currentOperator = null;
-    } else if (operator.textContent === "." && num2 === null && currentOperator === null && dot === false) {
-      dot = true;
-      displayInput.value += operator.textContent;
-      num1 = Number(displayInput.value);
-      //обработка num2
-    } else if (operator.textContent === "%" && currentOperator === null) {
-      let currNum1Perc = Number(displayInput.value) / 100;
-      displayInput.value = currNum1Perc;
-      num1 = currNum1Perc;
+    }
+    // else if (
+    //   operator.textContent === "." &&
+    //   num2 === null &&
+    //   currentOperator === null
+    //   // && dot === false
+    // ) {
+    //   // dot = true;
+    //   displayInput.value += operator.textContent;
+    //   num1 = Number(displayInput.value);
+    //   //обработка num2
+    // }
+    else if (operator.textContent === "%") {
+      if (currentOperator === null && num2 === null) {
+        let currNum1Perc = Number(displayInput.value) / 100;
+        displayInput.value = currNum1Perc;
+        num1 = currNum1Perc;
+      } else if (currentOperator !== null) {
+        //issue12 и 8
+      }
       // currentOperator = null;
-    } else if (currentOperator === null) {
+    } else if (currentOperator === null && operator.textContent !== "=") {
       currentOperator = operator.textContent;
       displayInput.value += operator.textContent;
     } else if (
