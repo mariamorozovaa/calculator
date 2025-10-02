@@ -70,7 +70,9 @@ numbers.forEach((number) => {
 });
 
 const operators = Array.from(document.querySelectorAll(".operator"));
-// let dot = false;
+
+let dotNum1 = false;
+let dotNum2 = false;
 
 operators.forEach((operator) => {
   operator.addEventListener("click", () => {
@@ -79,18 +81,22 @@ operators.forEach((operator) => {
       num1 = null;
       num2 = null;
       currentOperator = null;
+      dotNum1 = false;
+      dotNum2 = false;
     } else if (operator.textContent === "-/+" && num2 === null && currentOperator === null) {
       let currNum1 = Number(displayInput.value) * -1;
       num1 = currNum1;
       displayInput.value = currNum1;
       currentOperator = null;
     } else if (operator.textContent === ".") {
-      if (currentOperator === null) {
+      if (currentOperator === null && dotNum1 === false) {
         displayInput.value += operator.textContent;
+        dotNum1 = true;
         num1 = Number(displayInput.value);
-      } else if (currentOperator !== null) {
+      } else if (currentOperator !== null && dotNum2 === false) {
         displayInput.value += operator.textContent;
         num2 += operator.textContent;
+        dotNum2 = true;
       }
     } else if (operator.textContent === "%") {
       if (currentOperator === null && num2 === null) {
@@ -126,6 +132,8 @@ operators.forEach((operator) => {
         displayInput.value = result;
         num1 = result;
         num2 = null;
+        // dotNum1 = false;
+        dotNum2 = false;
         displayInput.value += operator.textContent;
         currentOperator = operator.textContent;
       }
