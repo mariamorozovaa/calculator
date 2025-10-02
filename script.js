@@ -125,21 +125,14 @@ operators.forEach((operator) => {
         num1 = result;
         num2 = null;
         currentOperator = null;
+      } else if (operator.textContent !== "=" && operator.textContent !== "%" && operator.textContent !== "-/+") {
+        result = operate(currentOperator, num1, num2);
+        displayInput.value = result;
+        num1 = result;
+        num2 = null;
+        displayInput.value += operator.textContent;
+        currentOperator = operator.textContent;
       }
-      // else if (
-      //   operator.textContent === "+" ||
-      //   operator.textContent === "/" ||
-      //   operator.textContent === "*" ||
-      //   operator.textContent === "-"
-      // ) {
-      //   result = operate(currentOperator, num1, num2);
-      //   num1 = Number(result);
-      //   num2 = null;
-      //   currentOperator = null;
-
-      //   displayInput.value = result;
-      //   displayInput.value += operator.textContent;
-      // }
     } else {
       alert("Ошибка");
     }
