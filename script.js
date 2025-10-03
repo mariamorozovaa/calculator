@@ -83,11 +83,17 @@ operators.forEach((operator) => {
       currentOperator = null;
       dotNum1 = false;
       dotNum2 = false;
-    } else if (operator.textContent === "-/+" && num2 === null && currentOperator === null) {
-      let currNum1 = Number(displayInput.value) * -1;
-      num1 = currNum1;
-      displayInput.value = currNum1;
-      currentOperator = null;
+    } else if (operator.textContent === "-/+") {
+      if (num2 === null && currentOperator === null) {
+        let currNum1 = Number(displayInput.value) * -1;
+        num1 = currNum1;
+        displayInput.value = currNum1;
+        currentOperator = null;
+      } else if (num1 !== null && currentOperator !== null && num2 === null) {
+        num1 *= -1;
+        displayInput.value = num1;
+        displayInput.value += currentOperator;
+      }
     } else if (operator.textContent === ".") {
       if (currentOperator === null && dotNum1 === false) {
         displayInput.value += operator.textContent;
@@ -156,5 +162,22 @@ function formatResult(result, maxLength = 12) {
   return result.toExponential(maxLength - 5);
 }
 
-//если на экране результат и начинаешь вводить новую операцию, ее не видно на дисплее (большие числа например)
-//сама операция в верхней строке, а результат внизу
+//!!!!!!!!!!!!!!chat GPT
+
+//округлять результат перед выводом:
+function cleanNumber(num) {
+  // округляем до 10 знаков после запятой и убираем лишние нули
+  return parseFloat(num.toFixed(10));
+}
+
+console.log(cleanNumber(9.4 - 7)); // 2.4
+console.log(cleanNumber(0.1 + 0.2)); // 0.3
+
+//Если хочешь всегда ограничивать длину числа на дисплее:
+function formatResult(num, maxDecimals = 8) {
+  return Number(num.toFixed(maxDecimals)) // округляет
+    .toString(); // убирает лишние нули
+}
+
+console.log(formatResult(2.4000000000000004)); // "2.4"
+console.log(formatResult(3.141592653589793)); // "3.14159265
