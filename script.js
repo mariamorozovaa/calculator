@@ -107,7 +107,7 @@ operators.forEach((operator) => {
     } else if (operator.textContent === "%") {
       if (currentOperator === null && num2 === null) {
         let currNum1Perc = Number(displayInput.value) / 100;
-        displayInput.value = formatResult(currNum1Perc); //не работает с пятеркой
+        displayInput.value = formatResult(currNum1Perc);
         num1 = currNum1Perc;
       } else if (currentOperator !== null) {
         //issue12 и 8
@@ -161,23 +161,3 @@ function formatResult(result, maxLength = 12) {
 
   return result.toExponential(maxLength - 5);
 }
-
-//!!!!!!!!!!!!!!chat GPT
-
-//округлять результат перед выводом:
-function cleanNumber(num) {
-  // округляем до 10 знаков после запятой и убираем лишние нули
-  return parseFloat(num.toFixed(10));
-}
-
-console.log(cleanNumber(9.4 - 7)); // 2.4
-console.log(cleanNumber(0.1 + 0.2)); // 0.3
-
-//Если хочешь всегда ограничивать длину числа на дисплее:
-function formatResult(num, maxDecimals = 8) {
-  return Number(num.toFixed(maxDecimals)) // округляет
-    .toString(); // убирает лишние нули
-}
-
-console.log(formatResult(2.4000000000000004)); // "2.4"
-console.log(formatResult(3.141592653589793)); // "3.14159265
